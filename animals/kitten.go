@@ -1,32 +1,22 @@
 package animals
 
-// BUT WHY USE POINTERS?
-// YOU DONT ALWAYS WANT TO BE MAKING COPIES OF THINGS
-
 type Kitten struct {
-	Name string
+	Name    string
+	Hobbies []string
 }
 
-func (k Kitten) SetName(name string) {
+func (k *Kitten) SetName(name string) {
 	k.Name = name
 }
 
-func (k Kitten) GetName() string {
+func (k *Kitten) GetName() string {
 	return k.Name
 }
 
-//  NOW K IS JUST A REFERENCE TO KITTY, NOT A COPY OF IT
-// WITH THE ABOVE ONES, YOU GET A NEW K EVERY TIME. WITHOUT THE *, WHEN YOU CALL GETNAME YOU ARE ACTUALLY GETTING A BRAND
-// NEW COPY OF KITTY.
-// YOU DON'T NEED TO WORRY ABOUT THIS WITH TRUE OBJECT ORIENTED LANGUAGES
-// IN GO YOU'RE ACTUALLY ATTACHING AN OBJECT TO A METHOD
-// REMEMBER THE DIFFERENCE BETWEEN HAVING A STAR AND NOT HAVING A * IS THE DIFFERENCE BETWEEN HAVING A COPY AND A REFERENCE.
-// WITH A REFERENCE YOU CAN CHANGE/MUTATE 'NAME'
-// WITH A COPY YOURE NOT MUTATING THE SAME INSTANCE THAT YOU THINK YOU ARE.
-func (k *Kitten) SetNameRef(name string) {
-	k.Name = name
+func (k *Kitten) GetHobbies() []string {
+	return k.Hobbies
 }
 
-func (k *Kitten) GetNameRef() string {
-	return k.Name
+func (k *Kitten) SetHobbies(hobby string) {
+	k.Hobbies = append(k.Hobbies, hobby)
 }

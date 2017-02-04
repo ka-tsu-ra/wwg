@@ -1,28 +1,42 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
+
+	"github.com/katsuraku/wwg/animals"
 )
 
-// can only have one func main in a Go program
-// it is the entry point - the thing that will run
+var kittens []animals.Kitten
 
 func main() {
-	http.HandleFunc("/hello", HelloWorld)
-	// creates /hello route. Whenever a request comes in on /hello, execute HelloWorld function
-	http.HandleFunc("/goodbye", Goodbye)
+	kittens = []animals.Kitten{
+		animals.Kitten{
+			Name: "Mr Tiggles",
+			Hobbies: []string{
+				"Playing with wool",
+				"Eating",
+			},
+		},
+		animals.Kitten{
+			Name: "Mr Tom",
+			Hobbies: []string{
+				"Sleeping",
+			},
+		},
+	}
+	http.HandleFunc("/list", ListKittens)
+
 	http.ListenAndServe(":9000", http.DefaultServeMux)
 	// Could specify an IP instead of port number if you want
 	// DefaultServeMux is a routing handler. Routes will be registered there.
 }
 
-func HelloWorld(rw http.ResponseWriter, r *http.Request) {
-	name := r.URL.Query().Get("name") // get the value from the querystring that corresponds with 'name' (http://localhost:9000/hello?name=kirsten)
-	fmt.Fprint(rw, "Hello "+name)
-}
-
-func Goodbye(rw http.ResponseWriter, r *http.Request) {
-	name := r.URL.Query().Get("name")
-	fmt.Fprint(rw, "Goodbye "+name)
+func ListKittens(rw http.ResponseWriter, r *http.Request) {
+	data, err := json.Marshal(kittens) // Need to convert Go object into Json to be rendered
+	if err != nil {
+		rw.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	rw.Write(data)
 }
