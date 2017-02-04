@@ -42,4 +42,7 @@ func main() {
 	kitty2 := &kitty
 	kitty2.SetName("Mr Tom")
 	fmt.Println(kitty.GetName())
+
+	doggy := animals.Dog{}
+	fmt.Println(doggy.Bark())
 }
