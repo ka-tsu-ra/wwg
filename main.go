@@ -18,9 +18,11 @@ func main() {
 }
 
 func HelloWorld(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(rw, "Hello")
+	name := r.URL.Query().Get("name") // get the value from the querystring that corresponds with 'name' (http://localhost:9000/hello?name=kirsten)
+	fmt.Fprint(rw, "Hello "+name)
 }
 
 func Goodbye(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(rw, "Goodbye")
+	name := r.URL.Query().Get("name")
+	fmt.Fprint(rw, "Goodbye "+name)
 }
