@@ -17,6 +17,10 @@ func (k *Kitten) GetHobbies() []string {
 	return k.Hobbies
 }
 
-func (k *Kitten) SetHobbies(hobby string) {
+func (k *Kitten) SetHobbies(hobbies []string) {
+	k.Hobbies = hobbies
+}
+
+func (k *Kitten) AddHobby(hobby string) {
 	k.Hobbies = append(k.Hobbies, hobby)
 }

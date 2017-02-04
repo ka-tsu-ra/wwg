@@ -7,33 +7,41 @@ import (
 	"github.com/katsuraku/wwg/animals"
 )
 
-var kittens []animals.Kitten
+// Something that's of interface is always a reference
+var pets []animals.Pet
 
 func main() {
-	kittens = []animals.Kitten{
-		animals.Kitten{
+	pets = []animals.Pet{
+		&animals.Kitten{
 			Name: "Mr Tiggles",
 			Hobbies: []string{
 				"Playing with wool",
 				"Eating",
 			},
 		},
-		animals.Kitten{
+		&animals.Kitten{
 			Name: "Mr Tom",
 			Hobbies: []string{
 				"Sleeping",
 			},
 		},
+		&animals.Dog{
+			Name: "Whatever",
+			Hobbies: []string{
+				"Barking",
+				"Running",
+			},
+		},
 	}
-	http.HandleFunc("/list", ListKittens)
+	http.HandleFunc("/list", ListPets)
 
 	http.ListenAndServe(":9000", http.DefaultServeMux)
 	// Could specify an IP instead of port number if you want
 	// DefaultServeMux is a routing handler. Routes will be registered there.
 }
 
-func ListKittens(rw http.ResponseWriter, r *http.Request) {
-	data, err := json.Marshal(kittens) // Need to convert Go object into Json to be rendered
+func ListPets(rw http.ResponseWriter, r *http.Request) {
+	data, err := json.Marshal(pets) // Need to convert Go object into Json to be rendered
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)
 		return
